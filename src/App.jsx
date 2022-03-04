@@ -54,7 +54,7 @@ const App = () => {
     amountRetire = document.getElementById('retireValue').value;
     amountRetire = amountRetire * 1000000000000000000;
     contract.methods.withdraw(amountRetire).send({ from: userAddress });
-	}
+  }
 
   const sendEther = () => {
     amountDeposit = document.getElementById('depositValue').value;
