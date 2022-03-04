@@ -51,9 +51,9 @@ const App = () => {
 
   const retireEther = () => {
     const contract = new web3.eth.Contract(contractABI.abi, ETH_POOL);
-		amountRetire = document.getElementById('retireValue').value;
-		amountRetire = amountRetire * 1000000000000000000;
-		contract.methods.withdraw(amountRetire).send({ from: userAddress });
+    amountRetire = document.getElementById('retireValue').value;
+    amountRetire = amountRetire * 1000000000000000000;
+    contract.methods.withdraw(amountRetire).send({ from: userAddress });
 	}
 
   const sendEther = () => {
