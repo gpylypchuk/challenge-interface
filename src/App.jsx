@@ -39,6 +39,8 @@ const App = () => {
       });
     }
     web3 = new Web3(provider);
+    const contract = new web3.eth.Contract(contractABI.abi, ETH_POOL);
+    const balance = await contract.methods.poolValue().call();
   }, []);
 
   const connectWallet = async () => {
@@ -51,8 +53,7 @@ const App = () => {
 
   const retireEther = () => {
     const contract = new web3.eth.Contract(contractABI.abi, ETH_POOL);
-    amountRetire = document.getElementById('retireValue').value;
-    amountRetire = amountRetire * 1000000000000000000;
+    amountRetire = (document.getElementById('retireValue').value * 1000000000000000000).toString();
     contract.methods.withdraw(amountRetire).send({ from: userAddress });
   }
 
