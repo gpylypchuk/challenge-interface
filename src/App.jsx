@@ -14,11 +14,11 @@ import {
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
-  NumberDecrementStepper,
- } from '@chakra-ui/react'
-import { ArrowForwardIcon, ArrowBackIcon } from '@chakra-ui/icons'
-import Web3 from 'web3/dist/web3.min.js';
+  NumberDecrementStepper
+ } from '@chakra-ui/react';
+import { ArrowForwardIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import contractABI from './abi/ETHPool.json';
+import Web3 from 'web3/dist/web3.min.js';
 import { useEffect } from 'react';
 import "./App.css";
 
@@ -40,7 +40,10 @@ const App = () => {
     }
     web3 = new Web3(provider);
     const contract = new web3.eth.Contract(contractABI.abi, ETH_POOL);
-    const balance = await contract.methods.poolValue().call();
+    const TVL = await contract.methods.poolValue().call();
+    document.getElementById('totalValue').innerHTML = `Total Value Locked: ${TVL / 1000000000000000000} Ξ`;
+    const balance = await contract.methods.balances(userAddress).call() / 1000000000000000000;
+    document.getElementById('balance').innerHTML = `Your Balance is: ${balance} Ξ`;
   }, []);
 
   const connectWallet = async () => {
@@ -70,10 +73,12 @@ const App = () => {
 
   return (
     <div id='back'>
-      <Stack spacing={4} borderRadius='60px' direction='column' align='center' backgroundColor='#0B091F' width='40%' marginLeft='30%' marginRight='30%' marginTop='12.5%'>
-        <Heading as='h2' size='3xl' isTruncated color='whiteAlpha.900' marginBottom='10px' marginTop='20px'>
+      <Stack spacing={4} borderRadius='60px' direction='column' align='center' backgroundColor='#0B091F' width='40%' marginLeft='30%' marginRight='30%' marginTop='8%'>
+        <Heading as='h2' size='3xl' isTruncated color='purple.50' marginBottom='10px' marginTop='20px'>
           Ethereum Pool
         </Heading>
+        <Heading as='h2' size='md' isTruncated color='purple.600' marginBottom='10px' marginTop='20px' id='totalValue'></Heading>
+        <Heading as='h2' size='md' isTruncated color='purple.600' marginBottom='10px' marginTop='20px' id='balance'></Heading>
         <Button marginTop='10%' colorScheme='green' variant='outline' size='md' marginLeft='50%' marginRight='50%' onClick={connectWallet}>
           Connect Wallet
         </Button>
@@ -87,7 +92,7 @@ const App = () => {
           <TabPanel>
             <FormControl>
               <FormLabel htmlFor='amount'>Amount in Ether</FormLabel>
-              <NumberInput min={0}>
+              <NumberInput min={0} precision={3} step={0.001} >
                 <NumberInputField id='depositValue' />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
@@ -102,7 +107,7 @@ const App = () => {
           <TabPanel>
             <FormControl>
               <FormLabel htmlFor='amount'>Amount in Ether</FormLabel>
-              <NumberInput min={0}>
+              <NumberInput min={0} precision={3} step={0.001} >
                 <NumberInputField id='retireValue' />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
