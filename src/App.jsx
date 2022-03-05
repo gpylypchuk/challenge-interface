@@ -14,9 +14,12 @@ import {
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
-  NumberDecrementStepper
+  NumberDecrementStepper,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
  } from '@chakra-ui/react';
-import { ArrowForwardIcon, ArrowBackIcon } from '@chakra-ui/icons';
+import { ArrowForwardIcon, ArrowBackIcon, CheckCircleIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import contractABI from './abi/ETHPool.json';
 import Web3 from 'web3/dist/web3.min.js';
 import { useEffect } from 'react';
@@ -70,16 +73,38 @@ const App = () => {
     });
   }
 	
+  const claimRewards = () => {
+    const contract = new web3.eth.Contract(contractABI.abi, ETH_POOL);
+    contract.methods.claimRewards().send({ from: userAddress });
+  }
 
   return (
     <div id='back'>
-      <Stack spacing={4} borderRadius='60px' direction='column' align='center' backgroundColor='#0B091F' width='40%' marginLeft='30%' marginRight='30%' marginTop='8%'>
+      <Stack spacing={4} borderRadius='60px' direction='column' 
+      align='center' backgroundColor='#0B091F' width='40%' 
+      marginLeft='30%' marginRight='30%' marginTop='8%' paddingBlock='25px'>
+        <Breadcrumb spacing='10px' separator={<ChevronRightIcon color='purple.50' />} color='purple.400'>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='#'>Owner</BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <BreadcrumbLink href='#'>About</BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href='#'>Contact</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
         <Heading as='h2' size='3xl' isTruncated color='purple.50' marginBottom='10px' marginTop='20px'>
           Ethereum Pool
         </Heading>
-        <Heading as='h2' size='md' isTruncated color='purple.600' marginBottom='10px' marginTop='20px' id='totalValue'></Heading>
-        <Heading as='h2' size='md' isTruncated color='purple.600' marginBottom='10px' marginTop='20px' id='balance'></Heading>
-        <Button marginTop='10%' colorScheme='green' variant='outline' size='md' marginLeft='50%' marginRight='50%' onClick={connectWallet}>
+        <Heading as='h2' size='md' isTruncated color='purple.600' 
+        marginBottom='10px' marginTop='20px' id='totalValue'></Heading>
+        <Heading as='h2' size='md' isTruncated color='purple.600' 
+        marginBottom='10px' marginTop='20px' id='balance'></Heading>
+        <Button marginTop='10%' colorScheme='green' variant='outline' 
+        size='md' marginLeft='50%' marginRight='50%' onClick={connectWallet}>
           Connect Wallet
         </Button>
         <Text color='gray.500' isTruncated id='account'></Text>
@@ -88,7 +113,7 @@ const App = () => {
           <Tab color='purple.400'>DEPOSIT</Tab>
           <Tab color='purple.400'>RETIRE</Tab>
         </TabList>
-        <TabPanels color='whiteAlpha.900' paddingBottom='50px'>
+        <TabPanels color='whiteAlpha.900'>
           <TabPanel>
             <FormControl>
               <FormLabel htmlFor='amount'>Amount in Ether</FormLabel>
@@ -99,7 +124,8 @@ const App = () => {
                   <NumberDecrementStepper />
                 </NumberInputStepper>
               </NumberInput>
-              <Button rightIcon={<ArrowForwardIcon />} colorScheme='purple' marginTop='10%' variant='outline' onClick={sendEther} >
+              <Button rightIcon={<ArrowForwardIcon />} colorScheme='purple' 
+              marginTop='10%' variant='outline' onClick={sendEther} >
                 Send
               </Button>
             </FormControl>
@@ -114,13 +140,18 @@ const App = () => {
                   <NumberDecrementStepper />
                 </NumberInputStepper> 
               </NumberInput>
-              <Button leftIcon={<ArrowBackIcon />} colorScheme='purple' marginTop='10%' variant='outline' onClick={retireEther} >
+              <Button leftIcon={<ArrowBackIcon />} colorScheme='purple' 
+              marginTop='10%' variant='outline' onClick={retireEther} >
                 Retire
               </Button>
             </FormControl>
           </TabPanel>
         </TabPanels>
       </Tabs>
+      <Button leftIcon={<CheckCircleIcon />} colorScheme='purple' 
+      variant='solid' onClick={claimRewards}>
+        Claim Rewards
+      </Button>
       </Stack>
     </div>
   )
