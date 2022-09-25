@@ -228,7 +228,7 @@ const Home: NextPage = () => {
           )}
         </button>
       </div>
-      <div style={{ textAlign: "center", fontWeight: "bold", marginTop: 30 }}>
+      <div style={{ textAlign: "center", fontWeight: "bold", marginTop: "2%" }}>
         <span className="nes-text is-disabled">
           {data.address == "" ? `TVL: * Ξ` : `TVL: ${data.totalValueLocked} Ξ`}
         </span>
@@ -243,6 +243,7 @@ const Home: NextPage = () => {
           style={{
             display: "flex",
             justifyContent: "center",
+            maxHeight: "10rem",
           }}
         >
           <div
@@ -278,7 +279,7 @@ const Home: NextPage = () => {
 
         <div
           style={{
-            marginTop: "4%",
+            marginTop: "5%",
             display: "flex",
             justifyContent: "center",
           }}
@@ -289,6 +290,7 @@ const Home: NextPage = () => {
               backgroundColor: "white",
               paddingLeft: "4.6rem",
               paddingRight: "4.6rem",
+              maxHeight: "10rem",
             }}
           >
             <p className="title">Withdraw Ether</p>
@@ -315,11 +317,11 @@ const Home: NextPage = () => {
           display: "flex",
           justifyContent: "center",
           position: "fixed",
-          bottom: 30,
+          bottom: "2%",
           width: "100%",
         }}
       >
-        <footer style={{}}>
+        <footer>
           <p style={{ textAlign: "center" }}>with ❤ by geroo</p>
           <section
             className="icon-list"
